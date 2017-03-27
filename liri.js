@@ -64,7 +64,7 @@ function movieThis(movieName){
 	    		console.log("Title : " + movie.title);
 	    		console.log("Year : " + movie.year);
 	    		console.log("IMDB Rating : " + movie.imdb.rating);
-	    		console.log("Country : " + movie.countries);
+	    		console.log("Country(s) : " + movie.countries);
 	    		// console.log("Language : "+movie);
 	    		console.log("Plot : " + movie.plot);
 	    		console.log("Actors : " + movie.actors);
