@@ -1,14 +1,18 @@
+// Load Twitter authorization file and package
 var twitterAuth = require('./keys.js');
 var twitter = require('twitter');
 var client = new twitter(twitterAuth.twitterKeys);
 
+// Load packges spotify(music), omdb(movie), fs(file read/write) for LIRI
 var spotify = require('spotify');
 var omdb = require('omdb');
 var fs = require("fs");
 
+// Get user inputs
 var userInput = process.argv[2];
 var titleName = process.argv.slice(3).join(' ');
 
+// LIRI command actions
 function userRequest(userInput,titleName){
 	switch(userInput){
 		case ("my-tweets"): 
@@ -26,12 +30,13 @@ function userRequest(userInput,titleName){
 	}
 }
 
+// Get latest 10 tweets from me
 function latestTweets(){
 	client.get('/statuses/user_timeline.json', { count: 10 }, function(error, tweet) {
 
 	  if (!error) { 
 	    for(i=0;i<10;i++){
-	    	console.log("Tweet: "+ (parseInt(i)+1) + " Created at : " + tweet[i].created_at);
+	    	console.log("Tweet: "+ (parseInt(i)+1) + " Posted at : " + tweet[i].created_at);
 	    	console.log(tweet[i].text);
 	  		console.log("");   
 	    }
@@ -39,6 +44,7 @@ function latestTweets(){
 	});
 }
 
+// Get details of the track provided
 function spotified(trackName){
 	spotify.search({ type: 'track', query: trackName}, function(error, data) {	
 	    if (!error) {     
@@ -50,6 +56,7 @@ function spotified(trackName){
 	});
 }
 
+// Get details of the movie provided
 function movieThis(movieName){
 	omdb.get({ title: movieName}, true, function(error, movie) {
 	    if (!error) { 
@@ -66,6 +73,7 @@ function movieThis(movieName){
 	});
 }
 
+//Read the text file and then use it to call one of LIRI's commands.
 function doThis(){
 	fs.readFile("random.txt", "utf8", function(error, data) {
 		data = data.split(",");
@@ -75,4 +83,5 @@ function doThis(){
 	});
 }
 
+// Call LIRI commands with user inputs
 userRequest(userInput,titleName);
