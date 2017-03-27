@@ -89,3 +89,11 @@ function doThis(){
 
 // Call LIRI commands with user inputs
 userRequest(userInput,titleName);
+
+if(!userInput){
+	console.log("Enter any of the below options");
+	console.log("1. my-tweets");
+	console.log("2. spotify-this-song <song name>");
+	console.log("3. movie-this <movie-name>");
+	console.log("4. do-what-it-says");
+}
