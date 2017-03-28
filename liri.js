@@ -74,7 +74,7 @@ function spotified(trackName){
 
 // Get details of the movie provided
 function movieThis(movieName){
-	omdb.get({ title: movieName, tomatoes: true }, true, function(error, movie) {
+	omdb.get({ title: movieName, fullPlot: true, tomatoes: true}, true, function(error, movie) {
 	    if (!error) { 	    	
 	    	if(movie){
 
@@ -87,6 +87,7 @@ function movieThis(movieName){
 
 	    		console.log(movieDetails);
 	        	fs.appendFile("log.txt",movieDetails);
+	        	console.log(movie.Language);
 
 	    		// console.log("Language : "+movie);
 	    		// console.log("Rotten Tomatoes Rating : " + movie.tomato);
