@@ -15,9 +15,10 @@ var titleName = process.argv.slice(3).join(' ');
 // LIRI command actions
 function userRequest(userInput,titleName){
 	var divider = "\n.................................\n";
-	var user = userInput + " " + titleName + "\n";
+	var user = userInput + " ";
+	titleName ? user += titleName : user ;
 	fs.appendFile("log.txt",divider);
-	fs.appendFile("log.txt", user);	
+	fs.appendFile("log.txt", user + "\n");	
 
 	switch(userInput){
 		case ("my-tweets"): 
