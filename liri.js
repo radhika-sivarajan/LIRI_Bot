@@ -14,6 +14,11 @@ var titleName = process.argv.slice(3).join(' ');
 
 // LIRI command actions
 function userRequest(userInput,titleName){
+	var divider = "\n.................................\n";
+	var user = userInput + " " + titleName + "\n";
+	fs.appendFile("log.txt",divider);
+	fs.appendFile("log.txt", user);	
+
 	switch(userInput){
 		case ("my-tweets"): 
 			latestTweets();
@@ -34,45 +39,62 @@ function userRequest(userInput,titleName){
 function latestTweets(){
 	client.get('/statuses/user_timeline.json', { count: 10 }, function(error, tweet) {
 
-	  if (!error) { 
-	    for(i=0;i<10;i++){
-	    	console.log("Tweet: " + (parseInt(i)+1) + " Posted at : " + tweet[i].created_at);
-	    	console.log(tweet[i].text);
-	  		console.log("");   
-	    }
-	  }
+		if (!error) { 
+			for(i=0;i<10;i++){
+
+				var tweets = "\nTweet: " + (parseInt(i)+1) 
+					+ " Posted at : " + tweet[i].created_at 
+					+ "\n" + tweet[i].text + "\n";
+
+				console.log(tweets);  
+				fs.appendFile("log.txt",tweets);
+			}
+			return true;
+		}
 	});
 }
 
 // Get details of the track provided
 function spotified(trackName){
 	spotify.search({ type: 'track', query: trackName}, function(error, data) {	
-	    if (!error) {     
-	        console.log("Song name : " + data.tracks.items[0].name);
-	        console.log("Preview link : " + data.tracks.items[0].preview_url);
-	        console.log("Album name : " + data.tracks.items[0].album.name);
-	        console.log("Artist(s) : " + data.tracks.items[0].artists[0].name);
+	    if (!error) { 
+	    	var song = data.tracks.items[0];
+
+	    	var songDetails = "\nSong name : " + song.name 
+	    		+ "\nPreview link : " + song.preview_url 
+	    		+ "\nAlbum name : " + song.album.name
+	    		+ "\nArtist(s) : " + song.artists[0].name;
+
+	        console.log(songDetails);
+	        fs.appendFile("log.txt",songDetails);
+	        return true;
 	    }
 	});
 }
 
 // Get details of the movie provided
 function movieThis(movieName){
-	omdb.get({ title: movieName}, true, function(error, movie) {
+	omdb.get({ title: movieName, tomatoes: true }, true, function(error, movie) {
 	    if (!error) { 	    	
 	    	if(movie){
-	    		console.log("Title : " + movie.title);
-	    		console.log("Year : " + movie.year);
-	    		console.log("IMDB Rating : " + movie.imdb.rating);
-	    		console.log("Country(s) : " + movie.countries);
+
+	    		var movieDetails = "\nTitle : " + movie.title
+	    			+ "\nYear : " + movie.year
+	    			+ "\nIMDB Rating : " + movie.imdb.rating
+	    			+ "\nCountry(s) : " + movie.countries
+	    			+ "\nPlot : " + movie.plot
+	    			+ "\nActors : " + movie.actors;
+
+	    		console.log(movieDetails);
+	        	fs.appendFile("log.txt",movieDetails);
+
 	    		// console.log("Language : "+movie);
-	    		console.log("Plot : " + movie.plot);
-	    		console.log("Actors : " + movie.actors);
 	    		// console.log("Rotten Tomatoes Rating : " + movie.tomato);
 	    		// console.log("Rotten Tomatoes URL : " + movie.tomato);
 	    	}else{
 	    		console.log("Movie NOT found");
 	    	}
+	    	return true;
 		}
 	});
 }
@@ -84,6 +106,7 @@ function doThis(){
 		var userInput = data[0];
 		var titleName = data[1];
 		userRequest(userInput,titleName);
+		return true;
 	});
 }
 
