@@ -87,7 +87,6 @@ function movieThis(movieName){
 
 	    		console.log(movieDetails);
 	        	fs.appendFile("log.txt",movieDetails);
-	        	console.log(movie.Language);
 
 	    		// console.log("Language : "+movie);
 	    		// console.log("Rotten Tomatoes Rating : " + movie.tomato);
