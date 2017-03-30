@@ -45,7 +45,7 @@ function latestTweets(){
 
 				var tweets = "\nTweet: " + (parseInt(i)+1) 
 					+ " Posted at : " + tweet[i].created_at 
-					+ "\n" + tweet[i].text + "\n";
+					+ "\n" + tweet[i].text;
 
 				console.log(tweets);  
 				fs.appendFile("log.txt",tweets);
