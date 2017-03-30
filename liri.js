@@ -2,6 +2,7 @@
 var twitterAuth = require('./keys.js');
 var twitter = require('twitter');
 var client = new twitter(twitterAuth.twitterKeys);
+var request = require('request');
 
 // Load packges spotify(music), omdb(movie), fs(file read/write) for LIRI
 var spotify = require('spotify');
@@ -25,7 +26,7 @@ function userRequest(userInput,titleName){
 			latestTweets();
 			break;
 		case ("spotify-this-song"): 
-			titleName ? spotified(titleName) : spotified("I saw the sign");
+			titleName ? spotified(titleName) : spotified("The Sign Ace of Base");
 			break;
 		case ("movie-this"): 
 			titleName ? movieThis(titleName) : movieThis("Mr Nobody");
@@ -36,7 +37,7 @@ function userRequest(userInput,titleName){
 	}
 }
 
-// Get latest 10 tweets from me
+// Get latest 10 tweets from my twitter feed
 function latestTweets(){
 	client.get('/statuses/user_timeline.json', { count: 10 }, function(error, tweet) {
 
@@ -61,10 +62,10 @@ function spotified(trackName){
 	    if (!error) { 
 	    	var song = data.tracks.items[0];
 
-	    	var songDetails = "\nSong name : " + song.name 
-	    		+ "\nPreview link : " + song.preview_url 
+	    	var songDetails = "\nSong name : " + song.name 	    		 
 	    		+ "\nAlbum name : " + song.album.name
-	    		+ "\nArtist(s) : " + song.artists[0].name;
+	    		+ "\nArtist(s) : " + song.artists[0].name
+	    		+ "\nPreview link : " + song.preview_url;
 
 	        console.log(songDetails);
 	        fs.appendFile("log.txt",songDetails);
@@ -73,27 +74,26 @@ function spotified(trackName){
 	});
 }
 
-// Get details of the movie provided
-function movieThis(movieName){
-	omdb.get({ title: movieName, fullPlot: true, tomatoes: true}, true, function(error, movie) {
-	    if (!error) { 	    	
-	    	if(movie){
-
-	    		var movieDetails = "\nTitle : " + movie.title
-	    			+ "\nYear : " + movie.year
-	    			+ "\nIMDB Rating : " + movie.imdb.rating
-	    			+ "\nCountry(s) : " + movie.countries
-	    			+ "\nPlot : " + movie.plot
-	    			+ "\nActors : " + movie.actors;
+// Get details of the movie provided from IMDB
+function movieThis(movieName){	
+	request('http://www.omdbapi.com/?t=' + movieName + '&y=&plot=full&tomatoes=true&r=json', function (error, response, data) {
+		if (!error) { 
+			var movie = JSON.parse(data);
+	    	if(movie.Response === "True"){	    		
+	    		var movieDetails = "\nTitle : " + movie.Title
+	    			+ "\nYear : " + movie.Year
+	    			+ "\nLanguage : " + movie.Language
+	    			+ "\nActors : " + movie.Actors
+	    			+ "\nIMDB Rating : " + movie.imdbRating
+	    			+ "\nCountry(s) : " + movie.Country
+	    			+ "\nRotten Tomatoes Rating  : " + movie.tomatoRating
+	    			+ "\nRotten Tomatoes URL  : " + movie.tomatoURL
+	    			+ "\nPlot : " + movie.Plot;
 
 	    		console.log(movieDetails);
 	        	fs.appendFile("log.txt",movieDetails);
-
-	    		// console.log("Language : "+movie);
-	    		// console.log("Rotten Tomatoes Rating : " + movie.tomato);
-	    		// console.log("Rotten Tomatoes URL : " + movie.tomato);
 	    	}else{
-	    		console.log("Movie NOT found");
+	    		console.log(movie.Error);
 	    	}
 	    	return true;
 		}
@@ -114,7 +114,7 @@ function doThis(){
 // Call LIRI commands with user inputs
 userRequest(userInput,titleName);
 
-// If there is no user input, Show the options
+// If there is no user input or proper liri commands, Show the options
 if(!userInput){
 	console.log("Enter any of the below options");
 	console.log("1. my-tweets");
