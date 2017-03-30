@@ -6,7 +6,6 @@ var request = require('request');
 
 // Load packges spotify(music), omdb(movie), fs(file read/write) for LIRI
 var spotify = require('spotify');
-var omdb = require('omdb');
 var fs = require("fs");
 
 // Get user inputs
