@@ -1,0 +1,31 @@
+{
+  "name": "liri_bot",
+  "version": "1.0.0",
+  "description": "LIRI is a Language Interpretation and Recognition Interface.",
+  "main": "liri.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radhika-sivarajan/LIRI_Bot.git"
+  },
+  "keywords": [
+    "liri",
+    "nodejs",
+    "omdb",
+    "twitter",
+    "spotify"
+  ],
+  "author": "radhika-sivarajan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/radhika-sivarajan/LIRI_Bot/issues"
+  },
+  "homepage": "https://github.com/radhika-sivarajan/LIRI_Bot#readme",
+  "dependencies": {
+    "omdb": "^0.7.0",
+    "spotify": "^0.3.0",
+    "twitter": "^1.7.0"
+  }
+}
