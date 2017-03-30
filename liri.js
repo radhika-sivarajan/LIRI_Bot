@@ -113,7 +113,7 @@ function doThis(){
 // Call LIRI commands with user inputs
 userRequest(userInput,titleName);
 
-// If there is no user input or proper liri commands, Show the options
+// If there is no user input, Show the options.
 if(!userInput){
 	console.log("Enter any of the below options");
 	console.log("1. my-tweets");
