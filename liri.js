@@ -78,14 +78,18 @@ function movieThis(movieName){
 	request('http://www.omdbapi.com/?t=' + movieName + '&y=&plot=full&tomatoes=true&r=json', function (error, response, data) {
 		if (!error) { 
 			var movie = JSON.parse(data);
-	    	if(movie.Response === "True"){	    		
+
+	    	if(movie.Response === "True"){	
+	    		var tomatoes;
+	    		movie.tomatoRating === "N/A" ? tomatoes = movie.Ratings[1].Value : tomatoes = movie.tomatoRating;
+	    		
 	    		var movieDetails = "\nTitle : " + movie.Title
 	    			+ "\nYear : " + movie.Year
 	    			+ "\nLanguage : " + movie.Language
 	    			+ "\nActors : " + movie.Actors
 	    			+ "\nIMDB Rating : " + movie.imdbRating
 	    			+ "\nCountry(s) : " + movie.Country
-	    			+ "\nRotten Tomatoes Rating  : " + movie.tomatoRating
+	    			+ "\nRotten Tomatoes Rating  : " + tomatoes
 	    			+ "\nRotten Tomatoes URL  : " + movie.tomatoURL
 	    			+ "\nPlot : " + movie.Plot;
 
