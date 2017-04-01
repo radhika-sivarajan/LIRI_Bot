@@ -2,10 +2,10 @@
 var twitterAuth = require('./keys.js');
 var twitter = require('twitter');
 var client = new twitter(twitterAuth.twitterKeys);
-var request = require('request');
 
-// Load packges spotify(music), omdb(movie), fs(file read/write) for LIRI
+// Load packges spotify(music), request(for http call to omdb), fs(file read/write) for LIRI
 var spotify = require('spotify');
+var request = require('request');
 var fs = require("fs");
 
 // Get user inputs
