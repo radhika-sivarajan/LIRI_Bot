@@ -33,6 +33,9 @@ function userRequest(userInput,titleName){
 		case ("do-what-it-says"): 
 			doThis();
 			break;
+		default:
+			console.log("Enter any of the below options\n1. my-tweets\n2. spotify-this-song <song name>\n3. movie-this <movie-name>\n4. do-what-it-says");
+			break;
 	}
 }
 
@@ -116,12 +119,3 @@ function doThis(){
 
 // Call LIRI commands with user inputs
 userRequest(userInput,titleName);
-
-// If there is no user input, Show the options.
-if(!userInput){
-	console.log("Enter any of the below options");
-	console.log("1. my-tweets");
-	console.log("2. spotify-this-song <song name>");
-	console.log("3. movie-this <movie-name>");
-	console.log("4. do-what-it-says");
-}
